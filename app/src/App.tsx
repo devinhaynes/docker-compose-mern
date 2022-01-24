@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { CreateUserForm } from "./CreateUserForm";
-import { UserList } from "./UserList";
+import { CreateUserForm } from "./components/CreateUser/CreateUserForm";
+import { UserList } from "./components/UserList/UserList";
 
 interface IUsers {
   first_name: string;
@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      {users && users.length > 0 ? <UserList users={users} /> : null}
+      {users && <UserList users={users} />}
       <CreateUserForm />
     </div>
   );

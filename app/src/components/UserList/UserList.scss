@@ -1,0 +1,40 @@
+.UserList {
+  display: flex;
+  flex-direction: column;
+
+  &__wrapper {
+    margin: 1rem auto;
+    border: 1px solid #238290;
+    padding: 10px;
+  }
+
+  &__header {
+    font-size: 2.5rem;
+    color: #238290;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  &Item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    &__name {
+      text-decoration: underline;
+    }
+
+    &__hobbies {
+      ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+      }
+    }
+  }
+}
