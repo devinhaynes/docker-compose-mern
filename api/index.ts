@@ -1,36 +1,44 @@
 import express from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
 const mongoose = require("mongoose");
+const UserModel = require("./models/User");
 
 const PORT = 3001;
 const MONGO_URL = `mongodb://mongo:27017`;
 
 const app = express();
 
+app.use(bodyParser.json());
 app.use(cors());
-
-// User schema
-const Schema = mongoose.Schema;
-
-const UserSchema = new Schema({
-  first_name: String,
-  last_name: String,
-  hobbies: [String],
-});
-const UserModel = mongoose.model("User", UserSchema);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.post("/", (req, res) => {
-  const Devin = new UserModel({
-    first_name: "Devin",
-    last_name: "Haynes",
-    hobbies: ["coding", "chess", "archery"],
+// GET /users
+// Get all users from db
+app.get("/users", async (req, res) => {
+  await UserModel.find()
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((e) => {
+      res.status(400).json(e);
+    });
+});
+
+// POST /users
+// Post a new user
+app.post("/users", (req, res) => {
+  const { first_name, last_name, hobbies } = req.body;
+  const user = new UserModel({
+    first_name,
+    last_name,
+    hobbies,
   });
 
-  Devin.save((e: any) => (e ? res.json("Didn't work") : res.json("Worked")));
+  user.save((e: any) => (e ? res.json("Didn't work") : res.json("Worked")));
 });
 
 async function main() {
