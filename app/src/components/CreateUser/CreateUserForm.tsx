@@ -15,7 +15,7 @@ export const CreateUserForm: FC = () => {
       hobbies,
     };
     axios.post("http://localhost:3001/users", formData).then((response) => {
-      console.log(response);
+      console.log(response.data);
     });
   };
 

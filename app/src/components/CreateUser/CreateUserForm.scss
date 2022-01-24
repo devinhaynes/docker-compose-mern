@@ -4,8 +4,11 @@
 
   &__wrapper {
     margin: 1rem auto;
-    border: 1px solid #238290;
+    border-top: 5px solid #238290;
     padding: 0.5rem;
+    width: clamp(300px, 100vw, 800px);
+    box-shadow: 3px 3px 6px #a9a9a9;
+    border-radius: 0.5rem;
   }
 
   &__header {
@@ -36,8 +39,7 @@
 
       select {
         width: 100%;
-        flex-grow: 1;
-        height: fit-content;
+        min-height: 10rem;
 
         option {
           font-size: 1rem;

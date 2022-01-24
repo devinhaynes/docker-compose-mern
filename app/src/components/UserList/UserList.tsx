@@ -1,27 +1,24 @@
 import { FC } from "react";
 import { UserListItem } from "./UserListItem";
 import "./UserList.scss";
-
-interface IUsers {
-  first_name: string;
-  last_name: string;
-  hobbies: string[];
-}
+import { IUser } from "../../types/IUser";
 
 const tempUsers = [
   {
+    _id: "1",
     first_name: "John",
     last_name: "Doe",
     hobbies: ["farming"],
   },
   {
+    _id: "2",
     first_name: "Jane",
     last_name: "Doe",
     hobbies: ["hunting"],
   },
 ];
 
-export const UserList: FC<{ users: IUsers[] | [] }> = ({ users }) => {
+export const UserList: FC<{ users: IUser[] | [] }> = ({ users }) => {
   if (users.length <= 0) {
     users = tempUsers;
   }

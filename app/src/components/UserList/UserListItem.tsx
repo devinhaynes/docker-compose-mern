@@ -1,12 +1,14 @@
 import { FC } from "react";
-
-interface IUser {
-  first_name: string;
-  last_name: string;
-  hobbies: string[];
-}
+import axios from "axios";
+import { IUser } from "../../types/IUser";
 
 export const UserListItem: FC<{ user: IUser }> = ({ user }) => {
+  const removeUser = () => {
+    axios
+      .delete(`http://localhost:3001/users/${user._id}`)
+      .then(() => console.log("Deleted"))
+      .catch((e) => console.log(e));
+  };
   return (
     <li className="UserListItem">
       <div className="UserListItem__name">
@@ -19,6 +21,7 @@ export const UserListItem: FC<{ user: IUser }> = ({ user }) => {
             <li>{hobby}</li>
           ))}
         </ul>
+        <button onClick={removeUser}>Remove User</button>
       </div>
     </li>
   );

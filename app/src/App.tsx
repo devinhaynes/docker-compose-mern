@@ -3,15 +3,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { CreateUserForm } from "./components/CreateUser/CreateUserForm";
 import { UserList } from "./components/UserList/UserList";
-
-interface IUsers {
-  first_name: string;
-  last_name: string;
-  hobbies: string[];
-}
+import { IUser } from "./types/IUser";
 
 function App() {
-  const [users, setUsers] = useState<IUsers[] | []>([]);
+  const [users, setUsers] = useState<IUser[] | []>([]);
 
   useEffect(() => {
     axios
