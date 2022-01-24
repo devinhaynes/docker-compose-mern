@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { CreateUserForm } from "./CreateUserForm";
+import { UserList } from "./UserList";
 
 interface IUsers {
   first_name: string;
@@ -10,45 +12,19 @@ interface IUsers {
 
 function App() {
   const [users, setUsers] = useState<IUsers[] | []>([]);
-  async function createUser() {
-    await fetch("http://localhost:3001", {
-      method: "POST",
-    })
-      .then((response) => console.log("We did it"))
-      .catch((e) => console.log("Something went wrong"));
-  }
 
   useEffect(() => {
-    fetch("http://localhost:3001/users", {
-      method: "GET",
-    })
+    axios
+      .get("http://localhost:3001/users")
       .then((response: any) => {
-        return response.json();
-      })
-      .then((response: any) => {
-        console.log(response);
-        if (response) setUsers(response);
+        if (response) setUsers(response.data);
       })
       .catch((e) => console.log(e));
   }, []);
 
   return (
     <div className="App">
-      <button onClick={createUser}>Create User</button>
-      <ul>
-        {(() => {
-          if (users && users.length > 0)
-            return users.map((user) => {
-              return (
-                <li>
-                  <div>{user.first_name}</div>
-                  <div>{user.last_name}</div>
-                  <div>{user.hobbies.toString()}</div>
-                </li>
-              );
-            });
-        })()}
-      </ul>
+      {users && users.length > 0 ? <UserList users={users} /> : null}
       <CreateUserForm />
     </div>
   );

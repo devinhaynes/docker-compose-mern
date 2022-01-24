@@ -28,6 +28,18 @@ app.get("/users", async (req, res) => {
     });
 });
 
+// GET /users/:id
+// Get single user from db
+app.get("/users/:id", async (req, res) => {
+  await UserModel.findOne({ _id: req.params.id })
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((e) => {
+      res.status(400).json(e);
+    });
+});
+
 // POST /users
 // Post a new user
 app.post("/users", (req, res) => {
