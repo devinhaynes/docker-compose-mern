@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 const mongoose = require("mongoose");
 const UserModel = require("./models/User");
+const HobbyModel = require("./models/Hobby");
 
 const PORT = 3001;
 const MONGO_URL = `mongodb://mongo:27017`;
@@ -18,7 +19,7 @@ app.get("/", (req, res) => {
 
 // GET /users
 // Get all users from db
-app.get("/users", async (req, res) => {
+app.get("/users", async (_, res) => {
   await UserModel.find()
     .then((users) => {
       res.json(users);
@@ -26,6 +27,15 @@ app.get("/users", async (req, res) => {
     .catch((e) => {
       res.status(400).json(e);
     });
+});
+
+// DELETE /users
+// Delete user
+app.delete("/users/:id", async (req, res) => {
+  const id = req.params.id;
+  await UserModel.deleteOne({ _id: id })
+    .then(() => res.json({ success: true }))
+    .catch((e) => res.status(400).json(e));
 });
 
 // GET /users/:id
@@ -51,6 +61,14 @@ app.post("/users", (req, res) => {
   });
 
   user.save((e: any) => (e ? res.json("Didn't work") : res.json("Worked")));
+});
+
+// GET /hobbies
+// Get all hobbies
+app.get("/hobbies", (req, res) => {
+  HobbyModel.find()
+    .then((hobbies) => res.json(hobbies))
+    .catch((e) => res.status(400).json(e));
 });
 
 async function main() {
