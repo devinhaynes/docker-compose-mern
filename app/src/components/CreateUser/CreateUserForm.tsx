@@ -1,11 +1,14 @@
-import { FC, FormEvent, useState, ChangeEvent } from "react";
+import { FC, FormEvent, useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 import "./CreateUserForm.scss";
+import { IHobby } from "../../types/IHobby";
+import { getHobbies } from "../../service/Hobbies/GetAllHobbies";
 
 export const CreateUserForm: FC = () => {
   const [firstName, setFirstName] = useState<string>();
   const [lastName, setLastName] = useState<string>();
   const [hobbies, setHobbies] = useState<string[]>();
+  const [availableHobbies, setAvailableHobbies] = useState<IHobby[]>([]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -50,6 +53,12 @@ export const CreateUserForm: FC = () => {
     );
   };
 
+  useEffect(() => {
+    getHobbies()
+      .then((response) => setAvailableHobbies(response.data))
+      .catch((e) => console.log(e));
+  }, []);
+
   return (
     <div className="CreateUserForm">
       <div className="CreateUserForm__wrapper">
@@ -77,10 +86,17 @@ export const CreateUserForm: FC = () => {
             <label htmlFor="">Hobbies</label>
             <select onChange={handleSelectChange} name="hobbies" multiple>
               <option value="">None</option>
-              <option value="chess">Chess</option>
-              <option value="coding">Coding</option>
-              <option value="archery">Archery</option>
-              <option value="juggling">Juggling</option>
+              {availableHobbies &&
+                availableHobbies.map((hobby) => {
+                  return (
+                    <option value={hobby.hobby.toLowerCase()}>
+                      {hobby.hobby
+                        .split("")
+                        .map((char, i) => (i === 0 ? char.toUpperCase() : char))
+                        .join("")}
+                    </option>
+                  );
+                })}
             </select>
           </div>
           <div className="CreateUserForm__btn_group">

@@ -1,11 +1,10 @@
 import { FC } from "react";
-import axios from "axios";
 import { IUser } from "../../types/IUser";
+import { deleteUser } from "../../service/User/DeleteUser";
 
 export const UserListItem: FC<{ user: IUser }> = ({ user }) => {
   const removeUser = () => {
-    axios
-      .delete(`http://localhost:3001/users/${user._id}`)
+    deleteUser(user._id)
       .then(() => console.log("Deleted"))
       .catch((e) => console.log(e));
   };
