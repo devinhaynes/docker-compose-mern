@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import { UserList } from "./components/UserList/UserList";
@@ -9,6 +8,7 @@ import { CreateUserFormContainer } from "./components/CreateUser/CreateUserFormC
 import Landing from "./components/Landing/Landing";
 import { Navbar } from "./components/Navbar/Navbar";
 import { About } from "./components/About/About";
+import { PageNotFound } from "./components/PageNotFound/PageNotFound";
 
 function App() {
   const [users, setUsers] = useState<IUser[] | []>([]);
@@ -31,6 +31,7 @@ function App() {
           <Route path="/users" element={<UserList users={users} />}>
             <Route path="create" element={<CreateUserFormContainer />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </div>
