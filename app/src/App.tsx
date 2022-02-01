@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
+import { Outlet } from "react-router";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import { CreateUserForm } from "./components/CreateUser/CreateUserForm";
 import { UserList } from "./components/UserList/UserList";
 import { IUser } from "./types/IUser";
 import { getAllUsers } from "./service/User/GetAllUsers";
+import { CreateUserFormContainer } from "./components/CreateUser/CreateUserFormContainer";
+import Landing from "./components/Landing/Landing";
+import { Navbar } from "./components/Navbar/Navbar";
+import { About } from "./components/About/About";
 
 function App() {
   const [users, setUsers] = useState<IUser[] | []>([]);
@@ -18,8 +23,16 @@ function App() {
 
   return (
     <div className="App">
-      {users && <UserList users={users} />}
-      <CreateUserForm />
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/users" element={<UserList users={users} />}>
+            <Route path="create" element={<CreateUserFormContainer />} />
+          </Route>
+        </Routes>
+      </Router>
     </div>
   );
 }

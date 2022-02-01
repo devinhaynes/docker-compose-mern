@@ -1,0 +1,19 @@
+.Navbar {
+  display: flex;
+
+  &__wrapper {
+    display: flex;
+    margin: 0 auto;
+    max-width: 1000px;
+    align-items: center;
+  }
+
+  &__links {
+    flex-grow: 1;
+
+    ul {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}

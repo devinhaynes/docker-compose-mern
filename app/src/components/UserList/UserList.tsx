@@ -1,7 +1,9 @@
 import { FC } from "react";
+import { Outlet } from "react-router";
 import { UserListItem } from "./UserListItem";
 import "./UserList.scss";
 import { IUser } from "../../types/IUser";
+import { Link } from "react-router-dom";
 
 const tempUsers = [
   {
@@ -31,7 +33,9 @@ export const UserList: FC<{ users: IUser[] | [] }> = ({ users }) => {
             return <UserListItem key={`user_${index}`} user={user} />;
           })}
         </ul>
+        <Link to="/users/create">Create User</Link>
       </div>
+      <Outlet />
     </div>
   );
 };

@@ -8,6 +8,7 @@ export const UserListItem: FC<{ user: IUser }> = ({ user }) => {
       .then(() => console.log("Deleted"))
       .catch((e) => console.log(e));
   };
+
   return (
     <li className="UserListItem">
       <div className="UserListItem__name">

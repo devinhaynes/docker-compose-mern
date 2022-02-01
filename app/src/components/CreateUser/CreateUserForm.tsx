@@ -1,64 +1,27 @@
-import { FC, FormEvent, useState, useEffect, ChangeEvent } from "react";
-import axios from "axios";
-import "./CreateUserForm.scss";
+import { FC, FormEvent, ChangeEvent } from "react";
 import { IHobby } from "../../types/IHobby";
-import { getHobbies } from "../../service/Hobbies/GetAllHobbies";
+import "./CreateUserForm.scss";
 
-export const CreateUserForm: FC = () => {
-  const [firstName, setFirstName] = useState<string>();
-  const [lastName, setLastName] = useState<string>();
-  const [hobbies, setHobbies] = useState<string[]>();
-  const [availableHobbies, setAvailableHobbies] = useState<IHobby[]>([]);
+interface ICreateUserFormProps {
+  firstName: string | undefined;
+  lastName: string | undefined;
+  hobbies: string[];
+  availableHobbies: IHobby[];
+  handleSubmit: (e: FormEvent) => void;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSelectChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleCancel: () => void;
+}
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const formData = {
-      first_name: firstName,
-      last_name: lastName,
-      hobbies,
-    };
-    axios.post("http://localhost:3001/users", formData).then((response) => {
-      console.log(response.data);
-    });
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    switch (e.target.name) {
-      case "firstName":
-        setFirstName(e.target.value);
-        break;
-      case "lastName":
-        setLastName(e.target.value);
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    let selectedOptions = Array.from(e.target.selectedOptions)
-      .map((option) => option.value)
-      .filter((option) => option !== "");
-    setHobbies(selectedOptions);
-  };
-
-  const handleCancel = () => {
-    setFirstName("");
-    setLastName("");
-    setHobbies([]);
-
-    // Unselect any items from the select menu
-    Array.from(document.getElementsByTagName("select")[0].selectedOptions).map(
-      (option) => (option.selected = false)
-    );
-  };
-
-  useEffect(() => {
-    getHobbies()
-      .then((response) => setAvailableHobbies(response.data))
-      .catch((e) => console.log(e));
-  }, []);
-
+export const CreateUserForm: FC<ICreateUserFormProps> = ({
+  firstName,
+  lastName,
+  availableHobbies,
+  handleSubmit,
+  handleInputChange,
+  handleSelectChange,
+  handleCancel,
+}) => {
   return (
     <div className="CreateUserForm">
       <div className="CreateUserForm__wrapper">
