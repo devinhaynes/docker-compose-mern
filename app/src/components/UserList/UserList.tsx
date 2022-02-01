@@ -33,7 +33,7 @@ export const UserList: FC<{ users: IUser[] | [] }> = ({ users }) => {
             return <UserListItem key={`user_${index}`} user={user} />;
           })}
         </ul>
-        <Link to="/users/create">Create User</Link>
+        <Link to="/createuser">Create User</Link>
       </div>
       <Outlet />
     </div>

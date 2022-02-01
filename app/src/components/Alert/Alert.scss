@@ -1,0 +1,21 @@
+.Alert {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  color: white;
+  z-index: 10;
+
+  &__info {
+    background: steelblue;
+  }
+
+  &__success {
+    background: forestgreen;
+  }
+
+  &__error {
+    background: red;
+  }
+}
