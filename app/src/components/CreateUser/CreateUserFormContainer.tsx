@@ -1,15 +1,27 @@
-import { FC, FormEvent, useState, useEffect, ChangeEvent } from "react";
+import {
+  FC,
+  FormEvent,
+  useState,
+  useEffect,
+  ChangeEvent,
+  useContext,
+} from "react";
 import axios from "axios";
 import { CreateUserForm } from "./CreateUserForm";
 import { IHobby } from "../../types/IHobby";
 import { getHobbies } from "../../service/Hobbies/GetAllHobbies";
+import { ErrorContext } from "../../state/context/ErrorContext";
 
 export const CreateUserFormContainer: FC = () => {
+  // Local state
   const [firstName, setFirstName] = useState<string | undefined>();
   const [lastName, setLastName] = useState<string | undefined>();
   const [hobbies, setHobbies] = useState<string[]>([]);
   const [availableHobbies, setAvailableHobbies] = useState<IHobby[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  // Context state
+  const { error, dispatchError } = useContext(ErrorContext);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -18,9 +30,17 @@ export const CreateUserFormContainer: FC = () => {
       last_name: lastName,
       hobbies,
     };
-    axios.post("http://localhost:3001/users", formData).then((response) => {
-      console.log(response.data);
-    });
+    axios
+      .post("http://localhost:3001/users", formData)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(() => {
+        dispatchError({
+          type: "SET_ERROR",
+          payload: { type: "http", message: "Unable to create user" },
+        });
+      });
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -57,7 +77,12 @@ export const CreateUserFormContainer: FC = () => {
   useEffect(() => {
     getHobbies()
       .then((response) => setAvailableHobbies(response.data))
-      .catch((e) => console.log(e))
+      .catch(() =>
+        dispatchError({
+          type: "SET_ERROR",
+          payload: { type: "http", message: "Unable to load hobbies" },
+        })
+      )
       .finally(() => setIsLoading(false));
   }, []);
 

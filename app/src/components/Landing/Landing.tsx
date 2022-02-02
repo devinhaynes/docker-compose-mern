@@ -1,12 +1,10 @@
 import { FC } from "react";
 import "./Landing.scss";
 
-function Landing() {
+export const Landing: FC = () => {
   return (
     <div className="Landing">
       <h1>Landing Page</h1>
     </div>
   );
-}
-
-export default Landing;
+};
