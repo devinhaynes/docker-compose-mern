@@ -44,7 +44,10 @@ router.post("/", (req, res) => {
     hobbies,
   });
 
-  user.save((e: any) => (e ? res.json("Didn't work") : res.json("Worked")));
+  user
+    .save()
+    .then((newUser) => res.json(newUser))
+    .catch((e) => res.json("Error: " + e));
 });
 
 module.exports = router;

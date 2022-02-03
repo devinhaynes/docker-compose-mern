@@ -1,9 +1,9 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Outlet } from "react-router";
 import { UserListItem } from "./UserListItem";
 import "./UserList.scss";
-import { IUser } from "../../types/IUser";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../state/context/UserContext";
 
 const tempUsers = [
   {
@@ -20,18 +20,19 @@ const tempUsers = [
   },
 ];
 
-export const UserList: FC<{ users: IUser[] | [] }> = ({ users }) => {
-  if (users.length <= 0) {
-    users = tempUsers;
-  }
+export const UserList: FC = () => {
+  const { users } = useContext(UserContext);
+  console.log(`Users from UserList: ${JSON.stringify(users)}`);
+  const userListUsers = users.length > 0 ? users : tempUsers;
   return (
     <div className="UserList">
       <div className="UserList__wrapper">
         <span className="UserList__header">Users</span>
         <ul>
-          {users.map((user, index) => {
-            return <UserListItem key={`user_${index}`} user={user} />;
-          })}
+          {userListUsers.length > 0 &&
+            userListUsers.map((user, index) => {
+              return <UserListItem key={`user_${index}`} user={user} />;
+            })}
         </ul>
         <Link to="/createuser">Create User</Link>
       </div>

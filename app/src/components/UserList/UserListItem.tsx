@@ -9,6 +9,7 @@ export const UserListItem: FC<{ user: IUser }> = ({ user }) => {
       .catch((e) => console.log(e));
   };
 
+  console.log(`User: ${JSON.stringify(user)}`);
   return (
     <li className="UserListItem">
       <div className="UserListItem__name">
@@ -17,9 +18,8 @@ export const UserListItem: FC<{ user: IUser }> = ({ user }) => {
       <div className="UserListItem__hobbies">
         <span>Hobbies:</span>
         <ul>
-          {user.hobbies.map((hobby) => (
-            <li>{hobby}</li>
-          ))}
+          {user.hobbies.length > 0 &&
+            user.hobbies.map((hobby) => <li>{hobby}</li>)}
         </ul>
         <button onClick={removeUser}>Remove User</button>
       </div>
